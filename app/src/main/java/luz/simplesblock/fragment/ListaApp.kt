@@ -24,7 +24,6 @@ class ListaApp : Fragment() {
     private var _binding: FragmentListaAppBinding? = null
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
-    private val dataSet:List<App> = PopulaApp().popula()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +41,7 @@ class ListaApp : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val dataSet:List<App> = PopulaApp(view.context).popula()
         recyclerView = binding.recyclerView
         recyclerView.adapter = AppAdapter(view.context, dataSet)
 
