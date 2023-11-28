@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -11,12 +12,12 @@ import luz.simplesblock.R
 import luz.simplesblock.model.App
 
 class AppAdapter(
-    private val context: Context,
     private val dataset: List<App>
 ): RecyclerView.Adapter<AppAdapter.ItemViewHolder>()  {
     class ItemViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView = view.findViewById(R.id.app_nome)
         val switch: Switch = view.findViewById(R.id.is_block)
+        var icone:ImageView  = view.findViewById(R.id.icone)
 
     }
 
@@ -34,5 +35,6 @@ class AppAdapter(
         val item = dataset[position]
         holder.textView.text = item.text
         holder.switch.setChecked(item.isBlock)
+        holder.icone.setImageDrawable(item.imageResource)
     }
 }

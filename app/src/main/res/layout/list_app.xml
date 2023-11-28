@@ -10,11 +10,13 @@
 
     <ImageView
         android:id="@+id/icone"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:importantForAccessibility="no"
         android:src="@mipmap/ic_launcher_round"
         tools:ignore="ImageContrastCheck" />
+
+
 
     <TextView
         android:id="@+id/app_nome"
