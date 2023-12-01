@@ -8,7 +8,6 @@ import android.util.Log
 
 class PopulaApp(private val context: Context) {
     fun popula(): List<App> {
-        Log.d("TesteOK","foiiiiiiii")
         val listaApp: MutableList<App> = mutableListOf()
         val packageManager: PackageManager = context.packageManager
         val apps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
