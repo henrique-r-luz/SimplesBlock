@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,6 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SimplesBlock"
         tools:targetApi="31">
+        <receiver
+            android:name=".broadCast.AppBroadCastReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <!-- Adicione outras ações do BroadcastReceiver, se necessário -->
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".service.AppBlockService"
+            android:enabled="true"
+            android:exported="false"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

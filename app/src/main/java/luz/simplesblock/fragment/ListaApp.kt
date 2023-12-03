@@ -49,9 +49,9 @@ class ListaApp : Fragment() {
         recyclerView = binding.recyclerView
         viewModelListaApp = ViewModelProvider(this, ViewModelListaAppFactory(requireActivity().application))
             .get(ViewModelListaApp::class.java)
-        viewModelListaApp.appMutableLiveData.observe(viewLifecycleOwner, Observer { dataSet ->
+        viewModelListaApp.appMutableLiveData.observe(viewLifecycleOwner) { dataSet ->
             recyclerView.adapter = AppAdapter(dataSet)
-        })
+        }
     }
 }
 
