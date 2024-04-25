@@ -4,7 +4,6 @@ import android.app.ActivityManager
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -12,11 +11,8 @@ import android.os.Build
 import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat.getSystemService
-import kotlinx.coroutines.delay
-import luz.simplesblock.MainActivity
 
-class AppBlockService : Service() {
+class AppBlockService: Service() {
 
     private val NOTIFICATION_ID = 1
     private val CHANNEL_ID = "AppBlockingChannel"
@@ -38,8 +34,8 @@ class AppBlockService : Service() {
     }
 
     private fun blockApp(packageName: String, startId: Int) {
-        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        Job(startId, activityManager).start()
+       // val activityManager = getSystemService(Context.ACTIVITY_) as ActivityManager
+        Job(this).start()
 
     }
     private fun createNotificationChannel() {
@@ -88,14 +84,18 @@ class AppBlockService : Service() {
 
 
 class Job(
-    private val startId: Int,
-    private val activityManager: ActivityManager
+    private val context: Context
+    //private val startId: Int,
+   // private val activityManager: ActivityManager
 ) : Thread() {
     override fun run() {
         while (true) {
             sleep(1000)
-            val runningAppProcesses = activityManager.runningAppProcesses
+            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val runningAppProcesses = activityManager.getRunningAppProcesses()
+
             for (processInfo in runningAppProcesses) {
+
                 Log.d("services", processInfo.processName)
                 /* if (processInfo.processName == packageName) {
                  try {

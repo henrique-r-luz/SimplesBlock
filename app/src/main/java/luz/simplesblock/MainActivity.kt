@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.Settings
 import android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS
 import androidx.annotation.RequiresApi
 import luz.simplesblock.service.AppBlockService
@@ -12,14 +13,18 @@ class MainActivity : AppCompatActivity() {
     private val sharedPreferencesKey = "showServiceSettings"
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        // Verificar se a tela ServiceSettingsActivity já foi mostrada
-        val sharedPreferences = getPreferences(MODE_PRIVATE)
-        val showServiceSettings = sharedPreferences.getBoolean(sharedPreferencesKey, true)
 
-        if (showServiceSettings) {
+        val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
+        startActivity(intent)
+
+        setContentView(R.layout.activity_main)
+
+
+
+
+
+        /*if (showServiceSettings) {
 
             // Se ainda não foi mostrada, abrir a tela e salvar o estado
             startActivity(Intent(ACTION_ACCESSIBILITY_SETTINGS))
@@ -30,8 +35,8 @@ class MainActivity : AppCompatActivity() {
             val editor = sharedPreferences.edit()
             editor.putBoolean(sharedPreferencesKey, false)
             editor.apply()
-        }
-
+        }*/
+        this.startBlockingService()
     }
 
 

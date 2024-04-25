@@ -17,7 +17,6 @@ class PopulaApp(private val context: Context) {
                 // Este aplicativo é do sistema
                 // Lide com o aplicativo do sistema
                 val appIcon = app.loadIcon(packageManager)
-                Log.d("infod", app.packageName)
                 listaApp.add(App(app.loadLabel(packageManager).toString(), false, appIcon))
             }
         }
