@@ -5,6 +5,7 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.app.usage.UsageStatsManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -51,20 +52,6 @@ class AppBlockService: Service() {
         }
     }
 
-    /*private fun createNotification(): Notification {
-        val intent = Intent(this, MainActivity::class.java)
-        val pendingIntent =
-            PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE)
-
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("AppBlocking está em execução")
-            .setContentText("Toque para abrir o aplicativo")
-            //.setSmallIcon(R.drawable.ic_notification)
-            .setContentIntent(pendingIntent)
-
-        return builder.build()
-    }*/
-
     private fun createHiddenNotification(): Notification {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID)
             //.setSmallIcon(R.drawable.ic_notification)
@@ -91,23 +78,24 @@ class Job(
     override fun run() {
         while (true) {
             sleep(1000)
-            val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val runningAppProcesses = activityManager.getRunningAppProcesses()
+            val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+            val endTime = System.currentTimeMillis()
+            val startTime = endTime - (1000 * 60) // Intervalo de 1 minuto
 
-            for (processInfo in runningAppProcesses) {
+            val usageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime)
 
-                Log.d("services", processInfo.processName)
-                /* if (processInfo.processName == packageName) {
-                 try {
-                     // Tenta encerrar o processo do aplicativo alvo
-                     //android.os.Process.killProcess(processInfo.pid)
-                     // Opcionalmente, você pode mostrar uma mensagem ao usuário ou realizar outra ação
-                   //  showToast("Aplicativo bloqueado: $packageName")
-                 } catch (e: Exception) {
-                     e.printStackTrace()
-                 }
-             }*/
+            if (usageStats != null) {
+
+
+                // Itera sobre os aplicativos com estatísticas de uso
+                val runningTask =  usageStats.sortedByDescending { it.lastTimeUsed }.firstOrNull()
+                if (runningTask != null) {
+                    Log.d("ActiveApps", "App em execução: "+runningTask.packageName)
+                    //runningTask.packageName
+                }
+
             }
+
         }
     }
 

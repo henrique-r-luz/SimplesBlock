@@ -53,7 +53,7 @@ class AppAdapter(
             }*/
             val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
             val endTime = System.currentTimeMillis()
-            val startTime = endTime - (100 * 60) // Intervalo de 1 minuto
+            val startTime = endTime - (1000 * 60) // Intervalo de 1 minuto
 
             val usageStats = usageStatsManager.queryUsageStats(UsageStatsManager.INTERVAL_DAILY, startTime, endTime)
 
@@ -61,7 +61,9 @@ class AppAdapter(
 
 
                 // Itera sobre os aplicativos com estatísticas de uso
+                //usageStats.sortedByDescending { it.lastTimeUsed }.firstOrNull()
                 for (stats in usageStats) {
+
                     if(stats.lastTimeUsed>= startTime && stats.lastTimeUsed <= endTime){
                  //   val lastTimeUsed = stats.lastTimeUsed
                  //   if (lastTimeUsed >= calendar.timeInMillis) {
